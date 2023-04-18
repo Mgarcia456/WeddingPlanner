@@ -1,0 +1,41 @@
+<div>
+    <h1>Welcome @Context.Session.GetString("UserFirstName")!</h1>
+</div>
+<br>
+<div class="d-flex justify-content-center justify-content-around">
+    <p><a href="/weddings">Home</a></p>
+    <p> | </p>
+    <p>Plan a Wedding</p>
+    <p> | </p>
+    <form asp-action="Logout" asp-controller="Home" method="post">
+        <input type="submit" value="Logout" class="btn btn-danger">
+    </form>
+</div>
+<br>
+<div>
+    <h1>Plan a Wedding</h1>
+    @model Wedding
+    <form asp-action="CreateWedding" asp-controller="Home" method="post">
+        <div class="mb-3">
+            <label asp-for="WedderOne">Wedder One: </label>
+            <input asp-for="WedderOne">
+            <span asp-validation-for="WedderOne" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="WedderTwo">Wedder Two: </label>
+            <input asp-for="WedderTwo">
+            <span asp-validation-for="WedderTwo" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="WeddingDate">Date: </label>
+            <input asp-for="WeddingDate" type="date">
+            <span asp-validation-for="WeddingDate" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="WeddingAddress">Address: </label>
+            <input asp-for="WeddingAddress">
+            <span asp-validation-for="WeddingAddress" class="text-danger"></span>
+        </div>
+        <input type="submit" value="Create">
+    </form>
+</div>

@@ -1,0 +1,26 @@
+@model Wedding
+<div>
+    <h1>Welcome @Context.Session.GetString("UserFirstName")!</h1>
+</div>
+<br>
+<div class="d-flex justify-content-center justify-content-around">
+    <p><a href="/weddings">Home</a></p>
+    <p> | </p>
+    <p><a href="/weddings/new">Plan a Wedding</a></p>
+    <p> | </p>
+    <form asp-action="Logout" asp-controller="Home" method="post">
+        <input type="submit" value="Logout" class="btn btn-danger">
+    </form>
+</div>
+<br>
+<div>
+    <h1>@Model.WedderOne & @Model.WedderTwo's wedding</h1>
+    <p>Date: @Model.WeddingDate</p>
+    <p>Guests:</p>
+    <ul>
+        @foreach (Association g in Model.WeddingAttendees)
+        {
+            <li>@g.User.Firstname @g.User.Lastname</li>
+        }
+    </ul>
+</div>

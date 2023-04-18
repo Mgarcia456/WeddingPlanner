@@ -1,0 +1,57 @@
+<div>
+    <h1>Welcome @Context.Session.GetString("UserFirstName")!</h1>
+</div>
+<br>
+<div class="d-flex justify-content-center justify-content-around">
+    <p>Home</p>
+    <p> | </p>
+    <p><a href="/weddings/new">Plan a Wedding</a></p>
+    <p> | </p>
+    <form asp-action="Logout" asp-controller="Home" method="post">
+        <input type="submit" value="Logout" class="btn btn-danger">
+    </form>
+</div>
+<br>
+<div>
+    @model List<Wedding>
+        <table class="table text-white">
+        <tr>
+            <th>Wedding of:</th>
+            <th>Date:</th>
+            <th>Guest Count:</th>
+            <th>Action:</th>
+        </tr>
+        @foreach (Wedding w in Model)
+        {
+            <tr>
+                <td><a href="/weddings/@w.WeddingId">@w.WedderOne & @w.WedderTwo</a></td>
+                <td>@w.WeddingDate.ToString("MMM d, yyyy")</td>
+                <td>@w.WeddingAttendees.Count</td>
+                <td>
+                    @{
+                        if (w.UserId == Context.Session.GetInt32("UserId"))
+                        {
+                            <form asp-action="DestroyWedding" asp-controller="Home"
+                            asp-route-id="@w.WeddingId" method="post">
+                                <input type="submit" value="Delete" class="btn btn-warning">
+                            </form>
+                        } else {
+                            if (w.WeddingAttendees.Any(a => a.UserId == Context.Session.GetInt32("UserId")))
+                            {
+                                <form asp-action="UnAttendWedding" asp-controller="Home"
+                                    asp-route-id="@w.WeddingId" method="post">
+                                    <input type="submit" value="un-RSVP" class="btn btn-warning">
+                                </form>
+                            } else {
+                                <form asp-action="AttendWedding" asp-controller="Home"
+                                    asp-route-id="@w.WeddingId" method="post">
+                                    <input type="submit" value="RSVP" class="btn btn-warning">
+                                </form>
+                            }
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
